@@ -1,0 +1,11 @@
+{
+  "index_patterns": ["logs-victim.auth-*"],
+  "data_stream": {},
+  "priority": 500,
+  "composed_of": ["logs@mappings", "logs@settings", "ecs@mappings", "ecs@dynamic_templates"],
+  "template": {
+    "settings": {
+      "index.default_pipeline": "victim-auth-pipeline"
+    }
+  }
+}

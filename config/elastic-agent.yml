@@ -1,0 +1,16 @@
+# Elastic Agent (standalone) config for the victim VM: /opt/Elastic/Agent/elastic-agent.yml
+# 192.168.64.1 is the Mac host as seen from the UTM shared network.
+outputs:
+  default:
+    type: elasticsearch
+    hosts: ["http://192.168.64.1:9200"]
+
+inputs:
+  - id: victim-auth-logs
+    type: filestream
+    streams:
+      - id: victim-auth-log-stream
+        data_stream:
+          dataset: victim.auth
+        paths:
+          - /var/log/auth.log

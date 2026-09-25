@@ -1,0 +1,26 @@
+{
+  "description": "Parse SSH auth.log lines into structured fields",
+  "processors": [
+    {
+      "grok": {
+        "field": "message",
+        "patterns": [
+          "%{TIMESTAMP_ISO8601:event.created} %{SYSLOGHOST:host.hostname} sshd(-session)?\\[%{POSINT:process.pid}\\]: %{WORD:event.action} password for (invalid user )?%{USERNAME:user.name} from %{IP:source.ip} port %{NUMBER:source.port} %{WORD:network.protocol}"
+        ],
+        "ignore_failure": true
+      }
+    },
+    {
+      "script": {
+        "if": "ctx.event?.action == 'Accepted'",
+        "source": "ctx.event.outcome = 'success'"
+      }
+    },
+    {
+      "script": {
+        "if": "ctx.event?.action == 'Failed'",
+        "source": "ctx.event.outcome = 'failure'"
+      }
+    }
+  ]
+}
