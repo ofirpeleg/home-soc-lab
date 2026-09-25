@@ -71,9 +71,7 @@ Everything is free and runs locally. The SIEM runs in Docker on the host rather 
 
 ## Background: How the Pieces Fit Together
 
-Skip this section if you already know SIEM basics. It is here so the rest of the write-up makes sense on its own, and so none of the jargon below shows up unexplained later.
-
-**What is a SIEM, really?** The word sounds bigger than the idea. A SIEM (Security Information and Event Management) is just a system that collects activity logs from your machines in one place, lets you search them, and can automatically flag patterns that look suspicious. It's the security-camera-footage equivalent for computers: constant recording, plus something watching the recording for you.
+**What is a SIEM, really?** A SIEM (Security Information and Event Management) is a system that collects activity logs from your machines in one place, lets you search them, and can automatically flag patterns that look suspicious. 
 
 ### The log pipeline
 
@@ -84,7 +82,7 @@ A SIEM is really a chain of small, simple steps:
 3. **Parsing.** A raw log line is just a sentence of text. Before it's useful, it needs to be broken into labeled pieces - who tried to log in, from which IP, did it succeed. That's what an **ingest pipeline** does.
 4. **Storage.** **Elasticsearch** (the database half of the stack) stores the parsed events so they can be searched instantly, even if there are millions of them.
 5. **Detection.** Rules run automatically on a timer, asking simple yes/no questions like "did the same IP fail more than 3 times in the last 5 minutes?" - and raise an alert when the answer is yes.
-6. **Visualization.** **Kibana** (the web interface half of the stack) is where a human actually looks at the data, searches it, and reviews alerts.
+6. **Visualization.** **Kibana** (the web interface half of the stack) is where we can actually look at the data, searches it, and reviews alerts.
 
 ### Why parsed fields matter
 
@@ -93,7 +91,7 @@ If all you have is the raw sentence `Failed password for root from 1.2.3.4`, you
 ### A quick glossary of the tools used here
 
 - **Elasticsearch** - stores and searches the log data. Think "a database built specifically for fast searching."
-- **Kibana** - the website you click around in: search logs (Discover), build charts (Dashboards), and manage alert rules (Rules).
+- **Kibana** - the website where you can search logs (Discover), build charts (Dashboards), and manage alert rules (Rules).
 - **Elastic Agent** - the small program installed on a machine to collect and forward its logs.
 - **Ingest pipeline** - the step that turns one raw log line into labeled fields (see above).
 - **ES|QL** - the query language used to write every detection rule here. It reads almost like a short recipe: "take this data, keep only the failures, count them per IP, keep only the counts above 3."
